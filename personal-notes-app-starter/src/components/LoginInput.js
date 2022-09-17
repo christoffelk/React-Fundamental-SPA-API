@@ -7,7 +7,7 @@ function LoginInput() {
     const [password, onPasswordChange] = useInput('');
     const onSubmitHandler = e => {
         e.preventDefault();
-        login({email,password});
+        
     }
     return (
         <form className="input-login" onSubmit={onSubmitHandler}>

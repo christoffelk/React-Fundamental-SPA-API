@@ -11,12 +11,12 @@ import LoginPage from "./Pages/LoginPage";
 import { getUserLogged, putAccessToken } from "./utils/api";
 
 
-class App extends React.Component{
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authedUser : null,
-      intializinig : true
+      authedUser: null,
+      intializinig: true
     }
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
     this.onLogout = this.onLogout.bind(this);
@@ -24,67 +24,66 @@ class App extends React.Component{
   async componentDidMount() {
     const { data } = await getUserLogged();
     this.setState(() => {
-        return {
-            authedUser: data,
-            initializing: false
-        }
+      return {
+        authedUser: data,
+        intializinig: false
+      }
     })
-}
+  }
 
-async onLoginSuccess({ accessToken }) {
+  async onLoginSuccess({ accessToken }) {
     putAccessToken(accessToken);
     const { data } = await getUserLogged();
 
     this.setState(() => {
-        return {
-            authedUser: data,
-        }
+      return {
+        authedUser: data,
+      }
     })
-}
+  }
 
-onLogout() {
+  onLogout() {
     this.setState(() => {
-        return {
-            authedUser: null
-        }
+      return {
+        authedUser: null
+      }
     })
     putAccessToken('');
-}
-  render(){
-    if(this.state.initializing){
+  }
+  render() {
+    if (this.state.intializinig) {
       return null
     }
-    if(this.state.authedUser === null)
-    {
-      return(
+    if (this.state.authedUser === null) {
+      return (
         <div className="app-container">
-        <header className='contact-app__header'>
-        <h1><Link to="/"> Aplikasi Catatan</Link></h1>  
-        <Navigation/>
-        </header>
-        <main>
-          <Routes>
+          <header className='contact-app__header'>
+            <h1><Link to="/"> Aplikasi Catatan</Link></h1>
+            <Navigation />
+          </header>
+          <main>
+            <Routes>
               <Route path="/*" element={<LoginPage loginSuccess={this.onLoginSuccess} />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path='*' element={<NotFound/>}/>
-          </Routes>
-        </main>
-      </div>
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </main>
+        </div>
       )
     }
     return (
       <div className="app-container">
         <header className='contact-app__header'>
-        <h1><Link to="/"> Aplikasi Catatan</Link></h1>  
-        <Navigation/>
+          <h1><Link to="/"> Aplikasi Catatan</Link></h1>
+          <Navigation />
         </header>
         <main>
           <Routes>
-              <Route path='/' element={<HomePage/>}/>
-              <Route path='/add' element={<AddPage/>}/>
-              <Route path='/notes/:id' element={<ContentWrapper/>}/>
-              <Route path='/archives' element={<ArchivePage/>}/>
-              <Route path='*' element={<NotFound/>}/>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/add' element={<AddPage />} />
+            <Route path='/notes/:id' element={<ContentWrapper />} />
+            <Route path='/archives' element={<ArchivePage />} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </main>
       </div>
